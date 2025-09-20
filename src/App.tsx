@@ -79,7 +79,7 @@ function App() {
                 <DocumentAnalysis document={currentDocument} language={language} />
               )}
               {activeTab === 'chat' && (
-                <ChatInterface document={currentDocument} language={language} />
+                <ChatInterface docData={currentDocument} language={language} />
               )}
               {activeTab === 'compare' && (
                 <ComparisonMode 

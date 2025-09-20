@@ -3,7 +3,7 @@ import { Send, Bot, User, Lightbulb } from 'lucide-react';
 import { getLocalizedText } from './LanguageSelector';
 
 interface ChatInterfaceProps {
-  document: any;
+  docData: any;
   language: string;
 }
 
@@ -14,11 +14,11 @@ interface Message {
   timestamp: Date;
 }
 
-export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language }) => {
+export const ChatInterface: React.FC<ChatInterfaceProps> = ({ docData, language }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: `Hi! I've read through your document "${document.name}" and I'm here to help you understand it. Think of me as your friendly legal translator - I can explain confusing parts, tell you about your rights, or help you spot anything that might be unfair. What questions do you have?`,
+      text: `Hi! I've read through your document "${docData.name}" and I'm here to help you understand it. Think of me as your friendly legal translator - I can explain confusing parts, tell you about your rights, or help you spot anything that might be unfair. What questions do you have?`,
       sender: 'ai',
       timestamp: new Date()
     }
@@ -51,7 +51,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language
 
     // Generate contextual AI response based on user question
     setTimeout(() => {
-      const aiResponse = generateContextualResponse(inputText, document, language);
+      const aiResponse = generateContextualResponse(inputText, docData, language);
       
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -204,21 +204,30 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language
       {/* Quick Actions */}
       <div className="mt-6">
       <div className="grid md:grid-cols-3 gap-4">
-        <button className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left">
+        <button 
+          onClick={() => setInputText("What should I check before signing this document?")}
+          className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left"
+        >
           <h3 className="font-semibold text-gray-900 mb-2">📋 {getLocalizedText('what_check', language) || 'What Should I Check?'}</h3>
           <p className="text-sm text-gray-600">
             {getLocalizedText('checklist_desc', language) || 'Get a simple checklist of things to verify before signing'}
           </p>
         </button>
         
-        <button className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left">
+        <button 
+          onClick={() => setInputText("What are my rights according to this document?")}
+          className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left"
+        >
           <h3 className="font-semibold text-gray-900 mb-2">⚖️ {getLocalizedText('what_rights', language) || 'What Are My Rights?'}</h3>
           <p className="text-sm text-gray-600">
             {getLocalizedText('rights_desc', language) || 'Learn what protections you have under the law'}
           </p>
         </button>
         
-        <button className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left">
+        <button 
+          onClick={() => setInputText("Are these terms normal for this type of document?")}
+          className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left"
+        >
           <h3 className="font-semibold text-gray-900 mb-2">🔍 {getLocalizedText('is_normal', language) || 'Is This Normal?'}</h3>
           <p className="text-sm text-gray-600">
             {getLocalizedText('normal_desc', language) || 'Find out if these terms are typical or unusual'}
@@ -231,7 +240,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language
 };
 
 // Generate contextual AI responses based on user questions
-const generateContextualResponse = (question: string, document: any, language: string): string => {
+const generateContextualResponse = (question: string, docData: any, language: string): string => {
   const lowerQuestion = question.toLowerCase();
   
   // Security deposit related questions
