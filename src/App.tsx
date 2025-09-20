@@ -70,7 +70,7 @@ function App() {
             <div className="min-h-[600px]">
               {activeTab === 'dashboard' && (
                 <Dashboard 
-                  document={currentDocument} 
+                  docData={currentDocument} 
                   onViewDocument={() => setShowDocumentViewer(true)}
                   language={language}
                 />
