@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { AlertTriangle, CheckCircle, Info, Star, Download, Volume2, VolumeX, Scale, Shield } from 'lucide-react';
 import { getRiskColor } from '../utils/riskUtils';
+import { getRelevantIPCSections } from '../utils/ipcSections';
+import { getLocalizedText } from '../utils/translations';
 
 interface DocumentAnalysisProps {
   document: any;
@@ -11,6 +13,9 @@ export const DocumentAnalysis: React.FC<DocumentAnalysisProps> = ({ document, la
   const [isSimpleMode, setIsSimpleMode] = useState(false);
   const [isNarrating, setIsNarrating] = useState(false);
   const { analysis } = document;
+  
+  // Get relevant IPC sections based on document type and risk level
+  const relevantIPCSections = getRelevantIPCSections(document.type, analysis.riskLevel);
 
   const handleNarration = () => {
     if (isNarrating) {
