@@ -297,13 +297,28 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({ onUpload, langua
       {/* Example Documents */}
       <div className="mt-12">
         <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
-          Try These Sample Documents (No Upload Required)
+          {getLocalizedText('try_sample_docs', language)}
         </h3>
         <div className="grid md:grid-cols-3 gap-4">
           {[
-            { name: 'Mumbai Rental Agreement', type: 'Housing Contract', risk: 'Medium', description: 'Typical 2BHK rental with some concerning clauses' },
-            { name: 'IT Job Contract', type: 'Employment Agreement', risk: 'Low', description: 'Standard tech company employment terms' },
-            { name: 'Personal Loan Agreement', type: 'Financial Contract', risk: 'High', description: 'High-interest loan with strict penalties' }
+            { 
+              name: getLocalizedText('mumbai_rental', language), 
+              type: getLocalizedText('housing_contract', language), 
+              risk: 'Medium', 
+              description: getLocalizedText('typical_2bhk', language) 
+            },
+            { 
+              name: getLocalizedText('it_job_contract', language), 
+              type: getLocalizedText('employment_agreement', language), 
+              risk: 'Low', 
+              description: getLocalizedText('standard_tech', language) 
+            },
+            { 
+              name: getLocalizedText('personal_loan', language), 
+              type: getLocalizedText('financial_contract', language), 
+              risk: 'High', 
+              description: getLocalizedText('high_interest_loan', language) 
+            }
           ].map((doc) => (
             <button
               key={doc.name}

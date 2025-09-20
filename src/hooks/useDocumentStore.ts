@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { saveDocument, getUserDocuments } from '../lib/supabase';
 
 interface Document {
   id: string;
@@ -59,6 +60,17 @@ export const useDocumentStore = () => {
 
   const addToHistory = (document: Document) => {
     setDocumentHistory(prev => [document, ...prev.slice(0, 9)]); // Keep last 10
+    
+    // Save to database
+    saveDocument({
+      name: document.name,
+      type: document.type,
+      size: document.size,
+      upload_date: document.uploadDate,
+      content: document.content,
+      analysis: document.analysis,
+      language: 'en' // Default language, can be updated based on user preference
+    }).catch(console.error);
   };
 
   const selectFromHistory = (document: Document) => {

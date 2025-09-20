@@ -206,6 +206,61 @@ export const DocumentAnalysis: React.FC<DocumentAnalysisProps> = ({ document, la
         </div>
       </div>
 
+      {/* IPC Sections */}
+      {relevantIPCSections.length > 0 && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <Scale className="w-6 h-6 text-red-600 mr-3" />
+            {getLocalizedText('ipc_sections', language)}
+          </h2>
+          
+          <div className="space-y-6">
+            {relevantIPCSections.map((section, index) => (
+              <div key={index} className="border border-gray-200 rounded-lg p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="font-semibold text-gray-900 text-lg">
+                    {getLocalizedText('ipc_section', language)} {section.section}: {section.title}
+                  </h3>
+                  <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">
+                    {getLocalizedText('punishment', language)}
+                  </span>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="bg-gray-50 p-4 rounded border-l-4 border-gray-400">
+                    <p className="text-sm font-medium text-gray-700 mb-2">
+                      {getLocalizedText('description', language)}:
+                    </p>
+                    <p className="text-gray-600">{section.description}</p>
+                  </div>
+                  
+                  <div className="bg-red-50 p-4 rounded border-l-4 border-red-400">
+                    <p className="text-sm font-medium text-red-700 mb-2">
+                      {getLocalizedText('punishment', language)}:
+                    </p>
+                    <p className="text-red-800 font-medium">{section.punishment}</p>
+                  </div>
+                  
+                  <div className="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                    <p className="text-sm font-medium text-blue-700 mb-2">
+                      {getLocalizedText('applies_to_document', language)}:
+                    </p>
+                    <ul className="text-blue-800 space-y-1">
+                      {section.applicableScenarios.slice(0, 3).map((scenario, idx) => (
+                        <li key={idx} className="flex items-start">
+                          <span className="text-blue-600 mr-2">•</span>
+                          {scenario}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <button className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center">
