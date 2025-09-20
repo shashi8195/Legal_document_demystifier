@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { X, Download, ZoomIn, ZoomOut, FileText, Eye } from 'lucide-react';
 
 interface DocumentViewerProps {
-  document: any;
+  viewedDocument: any;
   onClose: () => void;
 }
 
-export const DocumentViewer: React.FC<DocumentViewerProps> = ({ document, onClose }) => {
+export const DocumentViewer: React.FC<DocumentViewerProps> = ({ viewedDocument, onClose }) => {
   const [zoom, setZoom] = useState(100);
 
   const mockDocumentContent = `
@@ -74,7 +74,7 @@ Witness 2: ________________ Date: _________
     const element = document.createElement('a');
     const file = new Blob([mockDocumentContent], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
-    element.download = `${document.name}_original.txt`;
+    element.download = `${viewedDocument.name}_original.txt`;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -88,7 +88,7 @@ Witness 2: ________________ Date: _________
           <div className="flex items-center space-x-3">
             <FileText className="w-6 h-6 text-blue-600" />
             <div>
-              <h2 className="text-xl font-bold text-gray-900">{document.name}</h2>
+              <h2 className="text-xl font-bold text-gray-900">{viewedDocument.name}</h2>
               <p className="text-sm text-gray-500">Original Document</p>
             </div>
           </div>

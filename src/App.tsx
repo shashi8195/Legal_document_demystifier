@@ -145,7 +145,7 @@ function App() {
       {/* Document Viewer Modal */}
       {showDocumentViewer && currentDocument && (
         <DocumentViewer 
-          document={currentDocument}
+          viewedDocument={currentDocument}
           onClose={() => setShowDocumentViewer(false)}
         />
       )}
