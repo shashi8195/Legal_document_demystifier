@@ -47,12 +47,13 @@ export const saveDocument = async (document: Omit<Document, 'id' | 'created_at' 
 export const getUserDocuments = async (userId?: string) => {
   const { data, error } = await supabase
     .from('documents')
-    .select('*')
+    .select('id, user_id, name, type, size, upload_date, content, language, created_at, updated_at')
     .eq('user_id', userId || null)
     .order('created_at', { ascending: false })
   
   if (error) throw error
-  return data
+  // Add empty analysis object for compatibility
+  return data.map(doc => ({ ...doc, analysis: {} }))
 }
 
 export const updateUserLanguage = async (userId: string, language: string) => {
