@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, Lightbulb } from 'lucide-react';
+import { getLocalizedText } from './LanguageSelector';
 
 interface ChatInterfaceProps {
   document: any;
@@ -48,29 +49,20 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language
     setInputText('');
     setIsTyping(true);
 
-    // Simulate AI response
+    // Generate contextual AI response based on user question
     setTimeout(() => {
-      const aiResponses = [
-        getLocalizedResponse('response_1', language),
-        getLocalizedResponse('response_2', language),
-        getLocalizedResponse('response_3', language),
-        getLocalizedResponse('response_4', language),
-        getLocalizedResponse('response_5', language),
-        getLocalizedResponse('response_6', language)
-      ];
-
-      const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+      const aiResponse = generateContextualResponse(inputText, document, language);
       
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: randomResponse,
+        text: aiResponse,
         sender: 'ai',
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, aiMessage]);
       setIsTyping(false);
-    }, 1500);
+    }, 2000);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -81,12 +73,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language
   };
 
   const suggestedQuestions = [
-    "Can my landlord kick me out without much warning?",
-    "What happens if I need to move out early?",
-    "Can my landlord raise the rent whenever they want?",
-    "What if something expensive breaks - who pays?",
-    "Is this security deposit amount normal?",
-    "What are my rights if the landlord doesn't fix things?"
+    getLocalizedText('suggested_q1', language) || "Can my landlord kick me out without much warning?",
+    getLocalizedText('suggested_q2', language) || "What happens if I need to move out early?",
+    getLocalizedText('suggested_q3', language) || "Can my landlord raise the rent whenever they want?",
+    getLocalizedText('suggested_q4', language) || "What if something expensive breaks - who pays?",
+    getLocalizedText('suggested_q5', language) || "Is this security deposit amount normal?",
+    getLocalizedText('suggested_q6', language) || "What are my rights if the landlord doesn't fix things?"
   ];
 
   return (
@@ -96,10 +88,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language
         <div className="bg-blue-600 text-white p-6">
           <h2 className="text-xl font-bold flex items-center">
             <Bot className="w-6 h-6 mr-3" />
-            Ask Me Anything About Your Document
+            {getLocalizedText('ask_anything', language) || 'Ask Me Anything About Your Document'}
           </h2>
           <p className="text-blue-100 mt-2">
-            I'll explain everything in simple words and help you understand what it really means
+            {getLocalizedText('explain_simple', language) || "I'll explain everything in simple words and help you understand what it really means"}
           </p>
         </div>
 
@@ -188,7 +180,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask a question about your document..."
+                placeholder={getLocalizedText('ask_placeholder', language) || "Ask a question about your document..."}
                 className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 rows={2}
                 disabled={isTyping}
@@ -204,72 +196,115 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ document, language
           </div>
           
           <p className="text-xs text-gray-500 mt-2">
-            Press Enter to send, Shift+Enter for new line
+            {getLocalizedText('press_enter', language) || "Press Enter to send, Shift+Enter for new line"}
           </p>
         </div>
       </div>
 
       {/* Quick Actions */}
+      <div className="mt-6">
       <div className="grid md:grid-cols-3 gap-4">
         <button className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left">
-          <h3 className="font-semibold text-gray-900 mb-2">📋 What Should I Check?</h3>
+          <h3 className="font-semibold text-gray-900 mb-2">📋 {getLocalizedText('what_check', language) || 'What Should I Check?'}</h3>
           <p className="text-sm text-gray-600">
-            Get a simple checklist of things to verify before signing
+            {getLocalizedText('checklist_desc', language) || 'Get a simple checklist of things to verify before signing'}
           </p>
         </button>
         
         <button className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left">
-          <h3 className="font-semibold text-gray-900 mb-2">⚖️ What Are My Rights?</h3>
+          <h3 className="font-semibold text-gray-900 mb-2">⚖️ {getLocalizedText('what_rights', language) || 'What Are My Rights?'}</h3>
           <p className="text-sm text-gray-600">
-            Learn what protections you have under the law
+            {getLocalizedText('rights_desc', language) || 'Learn what protections you have under the law'}
           </p>
         </button>
         
         <button className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left">
-          <h3 className="font-semibold text-gray-900 mb-2">🔍 Is This Normal?</h3>
+          <h3 className="font-semibold text-gray-900 mb-2">🔍 {getLocalizedText('is_normal', language) || 'Is This Normal?'}</h3>
           <p className="text-sm text-gray-600">
-            Find out if these terms are typical or unusual
+            {getLocalizedText('normal_desc', language) || 'Find out if these terms are typical or unusual'}
           </p>
         </button>
+      </div>
       </div>
     </div>
   );
 };
 
+// Generate contextual AI responses based on user questions
+const generateContextualResponse = (question: string, document: any, language: string): string => {
+  const lowerQuestion = question.toLowerCase();
+  
+  // Security deposit related questions
+  if (lowerQuestion.includes('security') || lowerQuestion.includes('deposit')) {
+    return getLocalizedResponse('security_deposit', language);
+  }
+  
+  // Rent increase questions
+  if (lowerQuestion.includes('rent') && (lowerQuestion.includes('increase') || lowerQuestion.includes('raise'))) {
+    return getLocalizedResponse('rent_increase', language);
+  }
+  
+  // Maintenance and repair questions
+  if (lowerQuestion.includes('repair') || lowerQuestion.includes('maintenance') || lowerQuestion.includes('fix')) {
+    return getLocalizedResponse('maintenance', language);
+  }
+  
+  // Eviction and termination questions
+  if (lowerQuestion.includes('evict') || lowerQuestion.includes('kick out') || lowerQuestion.includes('terminate')) {
+    return getLocalizedResponse('eviction', language);
+  }
+  
+  // Rights related questions
+  if (lowerQuestion.includes('rights') || lowerQuestion.includes('protect')) {
+    return getLocalizedResponse('rights', language);
+  }
+  
+  // Early termination questions
+  if (lowerQuestion.includes('early') && lowerQuestion.includes('move')) {
+    return getLocalizedResponse('early_termination', language);
+  }
+  
+  // Default response for general questions
+  return getLocalizedResponse('general', language);
+};
 // Helper function for localized AI responses
 const getLocalizedResponse = (key: string, language: string): string => {
   const responses: Record<string, Record<string, string>> = {
     en: {
-      response_1: "Looking at your document, this means you need to tell your landlord in writing at least 30 days before you want to move out, or you might lose your security deposit. This is pretty normal, but make sure to set a reminder!",
-      response_2: "This part is actually not great for you. Most places give tenants 60 days notice before raising rent, but yours only gives 30 days. That's not much time to plan if you can't afford the increase.",
-      response_3: "Good news! You have the right to ask for reasonable changes to make the place work for you. Your landlord can't just ignore requests to fix things that make the place unsafe or unlivable.",
-      response_4: "This clause basically says you have to pay for expensive repairs. That's unusual - normally landlords pay for big stuff like broken heaters or plumbing. You might want to negotiate this to a higher amount, like $200 instead of $100.",
-      response_5: "According to the Model Tenancy Act 2021, landlords usually need to give 30 days notice for eviction, but your contract says only 7 days. That's really short and might not even be legal in your state.",
-      response_6: "This is actually a red flag. Most tenant protection laws require longer notice periods. In Maharashtra, for example, landlords typically need to give 15-30 days notice depending on the reason for eviction."
+      security_deposit: "Looking at your document, you need to pay ₹90,000 as security deposit (2 months rent). This is higher than the typical 1 month rent that most places ask for. Make sure to document the property condition with photos when you move in to protect your deposit when you move out.",
+      rent_increase: "Your landlord can increase rent with only 30 days notice. This is less time than many places give (usually 60 days). That's not much time to plan if you can't afford the increase. You might want to negotiate for a longer notice period.",
+      maintenance: "According to your contract, you're responsible for repairs over ₹100. This means if the AC breaks or there's a plumbing issue costing more than ₹100, you have to pay. This is unusual - normally landlords handle expensive repairs. Try to negotiate this to a higher amount.",
+      eviction: "Your contract allows termination with 60 days notice from either party. This is actually reasonable and gives you time to find a new place. However, there's an early termination fee of one month's rent if you leave before the lease ends.",
+      rights: "You have the right to live in a safe, habitable property. Your landlord must handle structural repairs and can't enter without reasonable notice. Under Indian tenant laws, you're also protected from arbitrary eviction as long as you follow the lease terms.",
+      early_termination: "If you need to move out early, you'll have to pay one month's rent as an early termination fee (₹45,000). You also need to give 60 days written notice. Make sure to get your security deposit back by documenting the property condition.",
+      general: "I'm here to help you understand your document! Could you be more specific about what you'd like to know? I can explain any clause, tell you about your rights, or help you understand what certain terms mean in simple language."
     },
     hi: {
-      response_1: "आपके दस्तावेज़ को देखते हुए, इसका मतलब है कि आपको अपने मकान मालिक को कम से कम 30 दिन पहले लिखित में बताना होगा कि आप बाहर जाना चाहते हैं, नहीं तो आप अपनी सिक्यूरिटी डिपॉजिट खो सकते हैं।",
-      response_2: "यह हिस्सा वास्तव में आपके लिए अच्छा नहीं है। अधिकांश जगहों पर किरायेदारों को किराया बढ़ाने से पहले 60 दिन का नोटिस मिलता है, लेकिन आपको केवल 30 दिन मिलते हैं।",
-      response_3: "अच्छी खबर! आपको उचित बदलाव मांगने का अधिकार है। आपका मकान मालिक सुरक्षा संबंधी समस्याओं को ठीक करने के अनुरोधों को नजरअंदाज नहीं कर सकता।",
-      response_4: "इस खंड का मतलब है कि आपको महंगी मरम्मत के लिए भुगतान करना होगा। यह असामान्य है - आमतौर पर मकान मालिक बड़ी चीजों के लिए भुगतान करते हैं।",
-      response_5: "मॉडल टेनेंसी एक्ट 2021 के अनुसार, मकान मालिकों को आमतौर पर बेदखली के लिए 30 दिन का नोटिस देना होता है, लेकिन आपके अनुबंध में केवल 7 दिन कहा गया है।",
-      response_6: "यह वास्तव में एक चेतावनी संकेत है। अधिकांश किरायेदार सुरक्षा कानूनों में लंबी नोटिस अवधि की आवश्यकता होती है।"
+      security_deposit: "आपके दस्तावेज़ के अनुसार, आपको ₹90,000 सिक्यूरिटी डिपॉजिट देना होगा (2 महीने का किराया)। यह सामान्य 1 महीने के किराए से ज्यादा है। जब आप अंदर जाएं तो संपत्ति की स्थिति की तस्वीरें लें ताकि बाहर जाते समय आपकी जमा राशि वापस मिल सके।",
+      rent_increase: "आपका मकान मालिक केवल 30 दिन के नोटिस से किराया बढ़ा सकता है। यह कई जगहों से कम समय है (आमतौर पर 60 दिन)। अगर आप वृद्धि का खर्च नहीं उठा सकते तो योजना बनाने के लिए यह पर्याप्त समय नहीं है।",
+      maintenance: "आपके अनुबंध के अनुसार, आप ₹100 से अधिक की मरम्मत के लिए जिम्मेदार हैं। इसका मतलब है कि अगर AC टूटता है या ₹100 से अधिक की प्लंबिंग समस्या है, तो आपको भुगतान करना होगा। यह असामान्य है।",
+      eviction: "आपका अनुबंध दोनों पक्षों से 60 दिन के नोटिस के साथ समाप्ति की अनुमति देता है। यह वास्तव में उचित है। हालांकि, अगर आप लीज समाप्त होने से पहले छोड़ते हैं तो एक महीने के किराए का जुर्माना है।",
+      rights: "आपको सुरक्षित, रहने योग्य संपत्ति में रहने का अधिकार है। आपका मकान मालिक संरचनात्मक मरम्मत संभालना चाहिए और बिना उचित सूचना के प्रवेश नहीं कर सकता।",
+      early_termination: "अगर आपको जल्दी बाहर जाना है, तो आपको एक महीने का किराया जुर्माना देना होगा (₹45,000)। आपको 60 दिन का लिखित नोटिस भी देना होगा।",
+      general: "मैं आपके दस्तावेज़ को समझने में आपकी मदद के लिए यहाँ हूँ! क्या आप अधिक विशिष्ट हो सकते हैं कि आप क्या जानना चाहते हैं?"
     },
     ta: {
-      response_1: "உங்கள் ஆவணத்தைப் பார்க்கும்போது, நீங்கள் வெளியேற விரும்பினால் குறைந்தது 30 நாட்களுக்கு முன்பு உங்கள் வீட்டு உரிமையாளரிடம் எழுத்துப்பூர்வமாக தெரிவிக்க வேண்டும்.",
-      response_2: "இந்த பகுதி உங்களுக்கு நல்லதல்ல. பெரும்பாலான இடங்களில் வாடகை அதிகரிப்பதற்கு முன் 60 நாட்கள் அறிவிப்பு கொடுக்கப்படும், ஆனால் உங்களுக்கு 30 நாட்கள் மட்டுமே.",
-      response_3: "நல்ல செய்தி! நியாயமான மாற்றங்களைக் கேட்க உங்களுக்கு உரிமை உண்டு. உங்கள் வீட்டு உரிமையாளர் பாதுகாப்பு பிரச்சினைகளை சரிசெய்யும் கோரிக்கைகளை புறக்கணிக்க முடியாது.",
-      response_4: "இந்த விதி அடிப்படையில் நீங்கள் விலையுயர்ந்த பழுதுபார்ப்புகளுக்கு பணம் செலுத்த வேண்டும் என்று கூறுகிறது. இது அசாதாரணமானது.",
-      response_5: "மாதிரி குத்தகை சட்டம் 2021 படி, வீட்டு உரிமையாளர்கள் பொதுவாக வெளியேற்றுவதற்கு 30 நாட்கள் அறிவிப்பு கொடுக்க வேண்டும், ஆனால் உங்கள் ஒப்பந்தத்தில் 7 நாட்கள் மட்டுமே.",
-      response_6: "இது உண்மையில் ஒரு எச்சரிக்கை அடையாளம். பெரும்பாலான குத்தகைதாரர் பாதுகாப்பு சட்டங்களுக்கு நீண்ட அறிவிப்பு காலங்கள் தேவை."
+      security_deposit: "உங்கள் ஆவணத்தின் படி, நீங்கள் ₹90,000 பாதுகாப்பு வைப்பு செலுத்த வேண்டும் (2 மாத வாடகை). இது வழக்கமான 1 மாத வாடகையை விட அதிகம். உள்ளே செல்லும்போது சொத்தின் நிலையின் புகைப்படங்களை எடுங்கள்.",
+      rent_increase: "உங்கள் வீட்டு உரிமையாளர் வெறும் 30 நாட்கள் அறிவிப்புடன் வாடகையை அதிகரிக்க முடியும். இது பல இடங்களை விட குறைவான நேரம் (பொதுவாக 60 நாட்கள்).",
+      maintenance: "உங்கள் ஒப்பந்தத்தின் படி, நீங்கள் ₹100க்கு மேல் பழுதுபார்ப்புக்கு பொறுப்பு. இதன் அர்த்தம் AC உடைந்தால் அல்லது ₹100க்கு மேல் பிளம்பிங் பிரச்சினை இருந்தால், நீங்கள் செலுத்த வேண்டும்.",
+      eviction: "உங்கள் ஒப்பந்தம் இரு தரப்பிலிருந்தும் 60 நாட்கள் அறிவிப்புடன் முடிவுக்கு அனுமதிக்கிறது. இது உண்மையில் நியாயமானது. இருப்பினும், குத்தகை முடிவதற்கு முன் நீங்கள் வெளியேறினால் ஒரு மாத வாடகை அபராதம் உள்ளது.",
+      rights: "நீங்கள் பாதுகாப்பான, வாழக்கூடிய சொத்தில் வாழ உரிமை உண்டு. உங்கள் வீட்டு உரிமையாளர் கட்டமைப்பு பழுதுபார்ப்புகளை கையாள வேண்டும்.",
+      early_termination: "நீங்கள் சீக்கிரம் வெளியேற வேண்டுமானால், ஒரு மாத வாடகையை அபராதமாக செலுத்த வேண்டும் (₹45,000). நீங்கள் 60 நாட்கள் எழுத்துப்பூர்வ அறிவிப்பும் கொடுக்க வேண்டும்.",
+      general: "உங்கள் ஆவணத்தை புரிந்துகொள்ள உதவ நான் இங்கே இருக்கிறேன்! நீங்கள் என்ன தெரிந்துகொள்ள விரும்புகிறீர்கள் என்பதில் இன்னும் குறிப்பிட்டு சொல்ல முடியுமா?"
     },
     te: {
-      response_1: "మీ పత్రాన్ని చూస్తే, మీరు బయటకు వెళ్లాలని అనుకుంటే కనీసం 30 దినాల ముందు మీ ఇంటి యజమానికి వ్రాతపూర్వకంగా తెలియజేయాలి.",
-      response_2: "ఈ భాగం మీకు మంచిది కాదు. చాలా చోట్ల అద్దె పెంచడానికి ముందు 60 రోజుల నోటీసు ఇస్తారు, కానీ మీకు 30 రోజులు మాత్రమే.",
-      response_3: "మంచి వార్త! సహేతుకమైన మార్పులను అడగడానికి మీకు హక్కు ఉంది. మీ ఇంటి యజమాని భద్రతా సమస్యలను పరిష్కరించే అభ్యర్థనలను విస్మరించలేరు.",
-      response_4: "ఈ నిబంధన ప్రాథమికంగా మీరు ఖరీదైన మరమ్మతులకు డబ్బు చెల్లించాలని చెబుతుంది. ఇది అసాధారణం.",
-      response_5: "మోడల్ టెనెన్సీ యాక్ట్ 2021 ప్రకారం, ఇంటి యజమానులు సాధారణంగా తొలగింపుకు 30 రోజుల నోటీసు ఇవ్వాలి, కానీ మీ ఒప్పందంలో 7 రోజులు మాత్రమే.",
-      response_6: "ఇది నిజంగా ఒక హెచ్చరిక సంకేతం. చాలా అద్దెదారుల రక్షణ చట్టాలకు ఎక్కువ నోటీసు కాలాలు అవసరం."
+      security_deposit: "మీ పత్రం ప్రకారం, మీరు ₹90,000 సెక్యూరిటీ డిపాజిట్ చెల్లించాలి (2 నెలల అద్దె). ఇది సాధారణ 1 నెల అద్దె కంటే ఎక్కువ. లోపలికి వెళ్లేటప్పుడు ఆస్తి స్థితి యొక్క ఫోటోలు తీయండి.",
+      rent_increase: "మీ ఇంటి యజమాని కేవలం 30 రోజుల నోటీసుతో అద్దె పెంచవచ్చు. ఇది చాలా చోట్ల కంటే తక్కువ సమయం (సాధారణంగా 60 రోజులు).",
+      maintenance: "మీ ఒప్పందం ప్రకారం, మీరు ₹100 కంటే ఎక్కువ మరమ్మతులకు బాధ్యత వహిస్తారు. దీని అర్థం AC విరిగితే లేదా ₹100 కంటే ఎక్కువ ప్లంబింగ్ సమస్య ఉంటే, మీరు చెల్లించాలి.",
+      eviction: "మీ ఒప్పందం రెండు పక్షాల నుండి 60 రోజుల నోటీసుతో ముగింపును అనుమతిస్తుంది. ఇది నిజంగా సహేతుకమైనది. అయితే, లీజు ముగిసేలోపు మీరు వెళ్లిపోతే ఒక నెల అద్దె జరిమానా ఉంది.",
+      rights: "మీరు సురక్షితమైన, నివాసయోగ్యమైన ఆస్తిలో నివసించే హక్కు ఉంది. మీ ఇంటి యజమాని నిర్మాణాత్మక మరమ్మతులను నిర్వహించాలి.",
+      early_termination: "మీరు త్వరగా బయటకు వెళ్లాలంటే, ఒక నెల అద్దెను జరిమానాగా చెల్లించాలి (₹45,000). మీరు 60 రోజుల వ్రాతపూర్వక నోటీసు కూడా ఇవ్వాలి.",
+      general: "మీ పత్రాన్ని అర్థం చేసుకోవడంలో సహాయం చేయడానికి నేను ఇక్కడ ఉన్నాను! మీరు ఏమి తెలుసుకోవాలనుకుంటున్నారో మరింత నిర్దిష్టంగా చెప్పగలరా?"
     }
   };
 

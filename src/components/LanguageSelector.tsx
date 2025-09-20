@@ -114,6 +114,25 @@ const translations: Record<string, Record<string, string>> = {
     what_should_do: "What Should I Do Next?",
     generate_action_checklist: "Generate Action Checklist"
   },
+  // Chat interface specific translations
+  chat: {
+    ask_anything: "Ask Me Anything About Your Document",
+    explain_simple: "I'll explain everything in simple words and help you understand what it really means",
+    ask_placeholder: "Ask a question about your document...",
+    press_enter: "Press Enter to send, Shift+Enter for new line",
+    what_check: "What Should I Check?",
+    checklist_desc: "Get a simple checklist of things to verify before signing",
+    what_rights: "What Are My Rights?",
+    rights_desc: "Learn what protections you have under the law",
+    is_normal: "Is This Normal?",
+    normal_desc: "Find out if these terms are typical or unusual",
+    suggested_q1: "Can my landlord kick me out without much warning?",
+    suggested_q2: "What happens if I need to move out early?",
+    suggested_q3: "Can my landlord raise the rent whenever they want?",
+    suggested_q4: "What if something expensive breaks - who pays?",
+    suggested_q5: "Is this security deposit amount normal?",
+    suggested_q6: "What are my rights if the landlord doesn't fix things?"
+  },
   hi: {
     app_subtitle: "AI-संचालित कानूनी दस्तावेज़ विश्लेषण",
     secure_private: "सुरक्षित और निजी",
@@ -205,6 +224,24 @@ const translations: Record<string, Record<string, string>> = {
     share_legal: "कानूनी पेशेवर के साथ साझा करें",
     what_should_do: "मुझे आगे क्या करना चाहिए?",
     generate_action_checklist: "कार्य चेकलिस्ट बनाएं"
+  },
+  chat: {
+    ask_anything: "अपने दस्तावेज़ के बारे में कुछ भी पूछें",
+    explain_simple: "मैं सब कुछ सरल शब्दों में समझाऊंगा और आपको समझने में मदद करूंगा कि इसका वास्तव में क्या मतलब है",
+    ask_placeholder: "अपने दस्तावेज़ के बारे में कोई प्रश्न पूछें...",
+    press_enter: "भेजने के लिए Enter दबाएं, नई लाइन के लिए Shift+Enter",
+    what_check: "मुझे क्या जांचना चाहिए?",
+    checklist_desc: "हस्ताक्षर करने से पहले सत्यापित करने वाली चीजों की एक सरल चेकलिस्ट प्राप्त करें",
+    what_rights: "मेरे अधिकार क्या हैं?",
+    rights_desc: "जानें कि कानून के तहत आपको क्या सुरक्षा प्राप्त है",
+    is_normal: "क्या यह सामान्य है?",
+    normal_desc: "पता करें कि ये शर्तें सामान्य हैं या असामान्य",
+    suggested_q1: "क्या मेरा मकान मालिक मुझे बिना ज्यादा चेतावनी के निकाल सकता है?",
+    suggested_q2: "अगर मुझे जल्दी बाहर जाना पड़े तो क्या होगा?",
+    suggested_q3: "क्या मेरा मकान मालिक जब चाहे किराया बढ़ा सकता है?",
+    suggested_q4: "अगर कुछ महंगा टूट जाए तो कौन भुगतान करेगा?",
+    suggested_q5: "क्या यह सिक्यूरिटी डिपॉजिट की राशि सामान्य है?",
+    suggested_q6: "अगर मकान मालिक चीजों को ठीक नहीं करता तो मेरे अधिकार क्या हैं?"
   },
   ta: {
     app_subtitle: "AI-இயங்கும் சட்ட ஆவண பகுப்பாய்வு",
@@ -298,6 +335,24 @@ const translations: Record<string, Record<string, string>> = {
     what_should_do: "நான் அடுத்து என்ன செய்ய வேண்டும்?",
     generate_action_checklist: "செயல் சரிபார்ப்பு பட்டியலை உருவாக்கவும்"
   },
+  chat: {
+    ask_anything: "உங்கள் ஆவணத்தைப் பற்றி எதையும் கேளுங்கள்",
+    explain_simple: "நான் எல்லாவற்றையும் எளிய வார்த்தைகளில் விளக்குவேன் மற்றும் அதன் உண்மையான அர்த்தம் என்னவென்று புரிந்துகொள்ள உதவுவேன்",
+    ask_placeholder: "உங்கள் ஆவணத்தைப் பற்றி ஒரு கேள்வி கேளுங்கள்...",
+    press_enter: "அனுப்ப Enter அழுத்தவும், புதிய வரிக்கு Shift+Enter",
+    what_check: "நான் என்ன சரிபார்க்க வேண்டும்?",
+    checklist_desc: "கையொப்பமிடுவதற்கு முன் சரிபார்க்க வேண்டிய விஷயங்களின் எளிய பட்டியலைப் பெறுங்கள்",
+    what_rights: "என் உரிமைகள் என்ன?",
+    rights_desc: "சட்டத்தின் கீழ் உங்களுக்கு என்ன பாதுகாப்புகள் உள்ளன என்பதை அறியுங்கள்",
+    is_normal: "இது சாधாரணமானதா?",
+    normal_desc: "இந்த விதிமுறைகள் வழக்கமானவையா அல்லது அசாதாரணமானவையா என்பதைக் கண்டறியுங்கள்",
+    suggested_q1: "என் வீட்டு உரிமையாளர் அதிக எச்சரிக்கை இல்லாமல் என்னை வெளியேற்ற முடியுமா?",
+    suggested_q2: "நான் சீக்கிரம் வெளியேற வேண்டுமானால் என்ன நடக்கும்?",
+    suggested_q3: "என் வீட்டு உரிமையாளர் எப்போது வேண்டுமானாலும் வாடகையை உயர்த்த முடியுமா?",
+    suggested_q4: "விலையுயர்ந்த ஏதாவது உடைந்தால் யார் பணம் செலுத்துவார்கள்?",
+    suggested_q5: "இந்த பாதுகாப்பு வைப்பு தொகை சாதாரணமானதா?",
+    suggested_q6: "வீட்டு உரிமையாளர் விஷயங்களை சரிசெய்யவில்லை என்றால் என் உரிமைகள் என்ன?"
+  },
   te: {
     app_subtitle: "AI-నడిచే చట్టపరమైన పత్ర విశ్లేషణ",
     secure_private: "సురక్షితమైన మరియు ప్రైవేట్",
@@ -389,6 +444,24 @@ const translations: Record<string, Record<string, string>> = {
     share_legal: "చట్టపరమైన నిపుణుడితో పంచుకోండి",
     what_should_do: "నేను తర్వాత ఏమి చేయాలి?",
     generate_action_checklist: "చర్య చెక్‌లిస్ట్ రూపొందించండి"
+  },
+  chat: {
+    ask_anything: "మీ పత్రం గురించి ఏదైనా అడగండి",
+    explain_simple: "నేను ప్రతిదీ సరళమైన పదాలలో వివరిస్తాను మరియు దాని అసలు అర్థం ఏమిటో అర్థం చేసుకోవడంలో సహాయం చేస్తాను",
+    ask_placeholder: "మీ పత్రం గురించి ఒక ప్రశ్న అడగండి...",
+    press_enter: "పంపడానికి Enter నొక్కండి, కొత్త లైన్ కోసం Shift+Enter",
+    what_check: "నేను ఏమి తనిఖీ చేయాలి?",
+    checklist_desc: "సంతకం చేసే ముందు ధృవీకరించాల్సిన విషయాల సరళమైన చెక్‌లిస్ట్ పొందండి",
+    what_rights: "నా హక్కులు ఏమిటి?",
+    rights_desc: "చట్టం కింద మీకు ఎలాంటి రక్షణలు ఉన్నాయో తెలుసుకోండి",
+    is_normal: "ఇది సాధారణమా?",
+    normal_desc: "ఈ నిబంధనలు సాధారణమైనవా లేక అసాధారణమైనవా తెలుసుకోండి",
+    suggested_q1: "నా ఇంటి యజమాని ఎక్కువ హెచ్చరిక లేకుండా నన్ను బయటకు పంపవచ్చా?",
+    suggested_q2: "నేను త్వరగా బయటకు వెళ్లాలంటే ఏమి జరుగుతుంది?",
+    suggested_q3: "నా ఇంటి యజమాని ఎప్పుడు వేణంటే అప్పుడు అద్దె పెంచవచ్చా?",
+    suggested_q4: "ఖరీదైన ఏదైనా విరిగితే ఎవరు డబ్బు చెల్లిస్తారు?",
+    suggested_q5: "ఈ సెక్యూరిటీ డిపాజిట్ మొత్తం సాధారణమా?",
+    suggested_q6: "ఇంటి యజమాని విషయాలను సరిచేయకపోతే నా హక్కులు ఏమిటి?"
   }
 };
 
